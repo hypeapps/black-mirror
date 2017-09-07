@@ -21,7 +21,6 @@ public class HomeActivity extends AppCompatActivity implements ActivationPhraseL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         pocketSphinx.onDestroy();
     }
 
