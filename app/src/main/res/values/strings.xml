@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Black Mirror</string>
+    <string name="permission_message">This app needs to record audio and recognize your speech.</string>
+    <string name="listening">Listening…</string>
+    <string name="load_file">Load file</string>
 </resources>

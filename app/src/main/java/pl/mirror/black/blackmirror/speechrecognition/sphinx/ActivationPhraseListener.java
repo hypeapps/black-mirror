@@ -6,6 +6,4 @@ public interface ActivationPhraseListener {
 
     void onActivationPhraseDetected();
 
-    void onTimeout();
-
 }

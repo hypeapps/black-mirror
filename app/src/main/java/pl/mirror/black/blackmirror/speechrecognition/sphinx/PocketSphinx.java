@@ -12,18 +12,16 @@ import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.RecognitionListener;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class PocketSphinx implements RecognitionListener {
 
     private static final String TAG = PocketSphinx.class.getSimpleName();
 
-    private static final String ACTIVATION_KEYPHRASE = "ok mirror";
+    /* Słowo kluczowe */
+    private static final String ACTIVATION_KEYPHRASE = "wakeup mirror";
 
-    /* Named searches allow to quickly reconfigure the decoder */
-    private static final String WAKEUP_SEARCH = "wakeup";
-
-    private static final String ACTION_SEARCH = "action";
+    /* Nazwa akcji rozpoznawnia słowa kluczowego */
+    private static final String WAKEUP_ACTION = "wakeup";
 
     private final ActivationPhraseListener activationPhraseListener;
 
@@ -40,31 +38,29 @@ public class PocketSphinx implements RecognitionListener {
     }
 
     /**
-     * We stop recognizer here to get a final result
+     * Wołana podczas zakończenia mowy.
      */
     @Override
     public void onEndOfSpeech() {
         Log.d(TAG, "onEndOfSpeech");
 
-        if (!recognizer.getSearchName().equals(WAKEUP_SEARCH)) {
+        if (!recognizer.getSearchName().equals(WAKEUP_ACTION)) {
             Log.i(TAG, "End of speech. Stop recognizer");
             recognizer.stop();
         }
     }
 
     /**
-     * In partial result we get quick updates about current hypothesis. In
-     * keyword spotting mode we can react here, in other modes we need to wait
-     * for final result in onResult.
+     * Podczas częściowego rezultatu dostajemy szybkie aktualizacje rezulatu rozpoznawania
+     * mowy. Kiedy hipoteza pasuje do podanego słowa kluczowego {@code recognizer.stop()}
      */
     @Override
     public void onPartialResult(Hypothesis hypothesis) {
         if (hypothesis == null) {
             return;
         }
-
         String text = hypothesis.getHypstr();
-        Log.e("TAG", text);
+        Log.e(TAG, " PARTIAL RESULT " + text);
         if (text.equals(ACTIVATION_KEYPHRASE)) {
             Log.i(TAG, "Activation keyphrase detected during a partial result");
             recognizer.stop();
@@ -74,7 +70,7 @@ public class PocketSphinx implements RecognitionListener {
     }
 
     /**
-     * This callback is called when we stop the recognizer.
+     * Wołana kiedy recognizer.stop()
      */
     @Override
     public void onResult(Hypothesis hypothesis) {
@@ -88,9 +84,6 @@ public class PocketSphinx implements RecognitionListener {
         if (ACTIVATION_KEYPHRASE.equals(text)) {
             recognizer.stop();
             activationPhraseListener.onActivationPhraseDetected();
-        } else {
-            recognizer.stop();
-            startListeningToActivationPhrase();
         }
     }
 
@@ -103,12 +96,11 @@ public class PocketSphinx implements RecognitionListener {
     public void onTimeout() {
         Log.i(TAG, "Timeout!");
         recognizer.stop();
-        activationPhraseListener.onTimeout();
     }
 
     public void startListeningToActivationPhrase() {
-        Log.i(TAG, "Start listening for the \"ok mirror\" keyphrase");
-        recognizer.startListening(WAKEUP_SEARCH);
+        Log.i(TAG, "Start listening for the \"wakeup mirror\" keyphrase");
+        recognizer.startListening(WAKEUP_ACTION);
     }
 
     public void onDestroy() {
@@ -118,6 +110,10 @@ public class PocketSphinx implements RecognitionListener {
         }
     }
 
+    /**
+     * @param context potrzebny dla Assets
+     * Konfiguruje obiekt rozpoznawania mowy. Odczytuje model z plików.
+     */
     private void runRecognizerSetup(final Context context) {
         Log.d(TAG, "Recognizer setup");
         // Recognizer initialization is a time-consuming and it involves IO, so we execute it in async task
@@ -145,16 +141,21 @@ public class PocketSphinx implements RecognitionListener {
         }.execute();
     }
 
+    /**
+     * @param assetsDir
+     * @throws IOException
+     * Tworzy obiekt rozpoznawania mowy.
+     */
     private void setupRecognizer(File assetsDir) throws IOException {
         recognizer = SpeechRecognizerSetup.defaultSetup()
                 .setAcousticModel(new File(assetsDir, "en-us-ptm"))
                 .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
                 .getRecognizer();
         recognizer.addListener(this);
-
         // Custom recognizer
-        recognizer.addKeyphraseSearch(WAKEUP_SEARCH, ACTIVATION_KEYPHRASE);
-        recognizer.addNgramSearch(ACTION_SEARCH, new File(assetsDir, "predefined.lm.bin"));
+        File phoneticModel = new File(assetsDir, "en-phone.dmp");
+        recognizer.addAllphoneSearch("PHONE", phoneticModel);
+        recognizer.addKeyphraseSearch(WAKEUP_ACTION, ACTIVATION_KEYPHRASE);
     }
 
 }
