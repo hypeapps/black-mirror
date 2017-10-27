@@ -7,8 +7,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--<uses-permission android:name="com.google.android.things.permission.MANAGE_AUDIO_DRIVERS" />-->
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,32 +18,25 @@
         android:supportsRtl="true"
         android:theme="@style/BlackMirror.Theme">
 
-        <activity android:name=".HomeActivity">
+        <!--<uses-library android:name="com.google.android.things"/>-->
+
+        <activity android:name=".ui.HomeActivity">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
-            <!-- Launch activity automatically on boot -->
+            <!--Launch activity automatically on boot -->
             <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <!--<category android:name="android.intent.category.IOT_LAUNCHER"/>-->
-            <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--<category android:name="android.intent.category.IOT_LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".speechrecognition.googlespeechapi.MainActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
         <service android:name=".speechrecognition.googlespeechapi.SpeechService"/>
     </application>
 </manifest>
