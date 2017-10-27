@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#4CAF50</color>
-    <color name="primary_dark">#388E3C</color>
+    <color name="primary_dark">#000000</color>
     <color name="accent">#536DFE</color>
+    <color name="background">#111</color>
 
     <color name="status_hearing">#7B1FA2</color>
     <color name="status_not_hearing">#757575</color>
