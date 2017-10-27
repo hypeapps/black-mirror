@@ -23,12 +23,12 @@ public class PocketSphinx implements RecognitionListener {
     /* Nazwa akcji rozpoznawnia słowa kluczowego */
     private static final String WAKEUP_ACTION = "wakeup";
 
-    private final ActivationPhraseListener activationPhraseListener;
+    private final ActivationKeywordListener activationKeywordListener;
 
     private SpeechRecognizer recognizer;
 
-    public PocketSphinx(Context context, ActivationPhraseListener activationPhraseListener) {
-        this.activationPhraseListener = activationPhraseListener;
+    public PocketSphinx(Context context, ActivationKeywordListener activationKeywordListener) {
+        this.activationKeywordListener = activationKeywordListener;
         runRecognizerSetup(context);
     }
 
@@ -83,7 +83,7 @@ public class PocketSphinx implements RecognitionListener {
 
         if (ACTIVATION_KEYPHRASE.equals(text)) {
             recognizer.stop();
-            activationPhraseListener.onActivationPhraseDetected();
+            activationKeywordListener.onActivationKeywordDetected();
         }
     }
 
@@ -98,7 +98,7 @@ public class PocketSphinx implements RecognitionListener {
         recognizer.stop();
     }
 
-    public void startListeningToActivationPhrase() {
+    public void startListeningToActivationKeyword() {
         Log.i(TAG, "Start listening for the \"wakeup mirror\" keyphrase");
         recognizer.startListening(WAKEUP_ACTION);
     }
@@ -135,7 +135,7 @@ public class PocketSphinx implements RecognitionListener {
                 if (result != null) {
                     Log.e(TAG, "Failed to initialize recognizer: " + result);
                 } else {
-                    activationPhraseListener.onActivationPhraseRecognizerReady();
+                    activationKeywordListener.onActivationKeywordRecognizerReady();
                 }
             }
         }.execute();
