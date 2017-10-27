@@ -7,12 +7,12 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
-public class CommandSpeechRecognizer implements SpeechService.Listener, ServiceConnection {
+public class SpeechRecognizer implements SpeechService.Listener, ServiceConnection {
 
     public interface Listener {
-        void onCommandRecognized(String command);
+        void onSpeechRecognized(String result);
 
-        void onFinishCommandRecognizing();
+        void onFinishSpeechRecognizing();
     }
 
     private static final String TAG = "CommandSpeechRecognizer";
@@ -23,9 +23,9 @@ public class CommandSpeechRecognizer implements SpeechService.Listener, ServiceC
 
     private VoiceRecorder voiceRecorder;
 
-    private CommandSpeechRecognizer.Listener listener;
+    private SpeechRecognizer.Listener listener;
 
-    public CommandSpeechRecognizer(Context context, CommandSpeechRecognizer.Listener listener) {
+    public SpeechRecognizer(Context context, SpeechRecognizer.Listener listener) {
         this.context = context;
         this.listener = listener;
     }
@@ -38,7 +38,8 @@ public class CommandSpeechRecognizer implements SpeechService.Listener, ServiceC
     @Override
     public void onSpeechRecognized(String text, boolean isFinal) {
         if (isFinal) {
-            listener.onCommandRecognized(text);
+            listener.onSpeechRecognized(text);
+//            stopListeningCommand();
         }
     }
 
@@ -67,7 +68,7 @@ public class CommandSpeechRecognizer implements SpeechService.Listener, ServiceC
         @Override
         public void onVoiceStart() {
             if (speechService != null) {
-                Log.i(TAG, " On voice end, start recognizing");
+                Log.i(TAG, " On voice start, start recognizing");
                 speechService.startRecognizing(voiceRecorder.getSampleRate());
             }
         }
@@ -92,7 +93,7 @@ public class CommandSpeechRecognizer implements SpeechService.Listener, ServiceC
                 Log.i(TAG, " On voice end, finishing recognizing");
                 speechService.finishRecognizing();
                 stopVoiceRecorder();
-                listener.onFinishCommandRecognizing();
+                listener.onFinishSpeechRecognizing();
             }
         }
     };
@@ -118,6 +119,13 @@ public class CommandSpeechRecognizer implements SpeechService.Listener, ServiceC
      */
     public void startListeningCommand() {
         startVoiceRecorder();
+    }
+
+    public void stopListeningCommand() {
+        if (speechService != null) {
+            speechService.finishRecognizing();
+            stopVoiceRecorder();
+        }
     }
 
     /**

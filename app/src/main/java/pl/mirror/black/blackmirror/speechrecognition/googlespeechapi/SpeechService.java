@@ -257,7 +257,7 @@ public class SpeechService extends Service {
         mRequestObserver.onNext(StreamingRecognizeRequest.newBuilder()
                 .setStreamingConfig(StreamingRecognitionConfig.newBuilder()
                         .setConfig(RecognitionConfig.newBuilder()
-                                .setLanguageCode(getDefaultLanguageCode())
+                                .setLanguageCode("pl-PL")
                                 .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
                                 .setSampleRateHertz(sampleRate)
                                 .build())
