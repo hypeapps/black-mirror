@@ -1,0 +1,118 @@
+package pl.mirror.black.blackmirror.ui;
+
+import android.util.Log;
+
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+import pl.mirror.black.blackmirror.model.location.TimeZone;
+import pl.mirror.black.blackmirror.model.news.News;
+import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
+import pl.mirror.black.blackmirror.network.LocationRepository;
+import pl.mirror.black.blackmirror.network.NewsRepository;
+import pl.mirror.black.blackmirror.network.WeatherRepository;
+import pl.mirror.black.blackmirror.network.api.location.LocationDataSource;
+import pl.mirror.black.blackmirror.network.api.weather.WeatherDataSource;
+import pl.mirror.black.blackmirror.network.rss.news.NewsDataSource;
+import pl.mirror.black.blackmirror.speechrecognition.TextCommandInterpreter;
+import pl.mirror.black.blackmirror.ui.presenter.Presenter;
+
+class HomePresenter extends Presenter<HomeView> implements TextCommandInterpreter.Listener {
+
+    private final WeatherRepository weatherDataSource = new WeatherDataSource();
+
+    private final LocationRepository locationDataSource = new LocationDataSource();
+
+    private final NewsRepository newsDataSource = new NewsDataSource();
+
+    private TextCommandInterpreter textCommandInterpreter = new TextCommandInterpreter(this);
+
+    private CompositeDisposable disposables = new CompositeDisposable();
+
+    @Override
+    protected void onAttachView(HomeView view) {
+        super.onAttachView(view);
+        disposables.add(newsDataSource.getNews()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new NewsObserver()));
+    }
+
+    @Override
+    protected void onDetachView() {
+        super.onDetachView();
+        if (!disposables.isDisposed()) {
+            disposables.dispose();
+        }
+    }
+
+    @Override
+    public void onFailureCommandRecognizing() {
+        Log.e("fail,", "FAIL");
+        this.view.showError("Niepoprawna komenda");
+    }
+
+    @Override
+    public void onWeatherCommandRecognized(String location) {
+        Log.e("city", location);
+        disposables.add(weatherDataSource.getWeatherByCityName(location, "metric", "pl")
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new WeatherResponseObserver()));
+    }
+
+    @Override
+    public void onTimeCommandRecognized(String location) {
+        Log.e("location", location);
+        disposables.add(locationDataSource.getTimeZoneByLocationName(location)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new TimeZoneObserver()));
+    }
+
+    void onSpeechRecognized(String result) {
+        textCommandInterpreter.interpret(result);
+    }
+
+    private class WeatherResponseObserver extends DisposableSingleObserver<WeatherResponse> {
+        @Override
+        public void onSuccess(@NonNull WeatherResponse weatherResponse) {
+            HomePresenter.this.view.showWeatherWidget(weatherResponse);
+            Log.e("weather response", weatherResponse.main.temp + " " + weatherResponse.main.humidity);
+        }
+
+        @Override
+        public void onError(@NonNull Throwable e) {
+            HomePresenter.this.view.showError("Nie znaleziono pogody");
+        }
+    }
+
+    private class TimeZoneObserver extends DisposableSingleObserver<TimeZone> {
+        @Override
+        public void onSuccess(@NonNull TimeZone timeZone) {
+            Log.e("time zone", timeZone.timeZone);
+            HomePresenter.this.view.showClockWidget(timeZone.timeZone);
+        }
+
+        @Override
+        public void onError(@NonNull Throwable e) {
+            HomePresenter.this.view.showError("Nie znaleziono czasu dla podanej strefy");
+        }
+    }
+
+    private class NewsObserver extends DisposableSingleObserver<List<News>> {
+        @Override
+        public void onSuccess(List<News> news) {
+            Log.e("news", news.get(0).description);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e("error", e.getMessage());
+        }
+    }
+}
