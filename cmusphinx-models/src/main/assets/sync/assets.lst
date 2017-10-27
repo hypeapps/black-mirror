@@ -8,6 +8,4 @@ en-us-ptm/noisedict
 en-us-ptm/sendump
 en-us-ptm/transition_matrices
 en-us-ptm/variances
-menu.gram
 predefined.lm.bin
-weather.dmp
