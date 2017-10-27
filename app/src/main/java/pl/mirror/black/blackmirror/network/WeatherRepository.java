@@ -1,4 +1,4 @@
-package pl.mirror.black.blackmirror.network.api;
+package pl.mirror.black.blackmirror.network;
 
 import io.reactivex.Single;
 import pl.mirror.black.blackmirror.model.weather.WeatherResponse;

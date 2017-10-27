@@ -2,7 +2,7 @@ package pl.mirror.black.blackmirror.network.api.weather;
 
 import io.reactivex.Single;
 import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
-import pl.mirror.black.blackmirror.network.api.WeatherRepository;
+import pl.mirror.black.blackmirror.network.WeatherRepository;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
