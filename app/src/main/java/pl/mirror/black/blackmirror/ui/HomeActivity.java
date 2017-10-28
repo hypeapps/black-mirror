@@ -1,6 +1,8 @@
 package pl.mirror.black.blackmirror.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextClock;
@@ -16,6 +18,7 @@ import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
 import pl.mirror.black.blackmirror.speechrecognition.googlespeechapi.SpeechRecognizer;
 import pl.mirror.black.blackmirror.speechrecognition.sphinx.ActivationKeywordListener;
 import pl.mirror.black.blackmirror.speechrecognition.sphinx.PocketSphinx;
+import pl.mirror.black.blackmirror.ui.adapter.NewsRecyclerAdapter;
 import pl.mirror.black.blackmirror.ui.widget.CommandRecognizingAnimationView;
 import pl.mirror.black.blackmirror.ui.widget.WeatherWidgetView;
 
@@ -38,6 +41,8 @@ public class HomeActivity extends BaseActivity implements HomeView,
 
     public HomePresenter homePresenter = new HomePresenter();
 
+    public NewsRecyclerAdapter newsRecyclerAdapter;
+
     @BindView(R.id.activation_keyword_indicator)
     public TextView activationKeywordIndicator;
 
@@ -49,6 +54,9 @@ public class HomeActivity extends BaseActivity implements HomeView,
 
     @BindView(R.id.clock)
     public TextClock clock;
+
+    @BindView(R.id.news_widget)
+    public RecyclerView newsWidget;
 
     private static final String TAG = "HomeActivity";
 
@@ -62,6 +70,7 @@ public class HomeActivity extends BaseActivity implements HomeView,
         pocketSphinx = new PocketSphinx(this, this);
         commandSpeechRecognizer = new SpeechRecognizer(this, this);
         homePresenter.onAttachView(this);
+        newsRecyclerAdapter = new NewsRecyclerAdapter(this);
     }
 
     @Override
@@ -146,7 +155,9 @@ public class HomeActivity extends BaseActivity implements HomeView,
 
     @Override
     public void showNewsWidget(List<News> newsList) {
-        activationKeywordIndicator.setText(newsList.get(0).getDescription());
+        newsWidget.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        newsWidget.setAdapter(newsRecyclerAdapter);
+        newsRecyclerAdapter.addItems(newsList);
     }
 
     @Override
