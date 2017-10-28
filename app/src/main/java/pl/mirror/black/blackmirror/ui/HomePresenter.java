@@ -36,10 +36,7 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     @Override
     protected void onAttachView(HomeView view) {
         super.onAttachView(view);
-        disposables.add(newsDataSource.getNews()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new NewsObserver()));
+
     }
 
     @Override
@@ -74,6 +71,14 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     @Override
     public void onHideWeatherWidget() {
         this.view.hideWeather();
+    }
+
+    @Override
+    public void onNewsCommandRecognized() {
+        disposables.add(newsDataSource.getNews()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new NewsObserver()));
     }
 
     void onSpeechRecognized(String result) {
@@ -116,12 +121,12 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     private class NewsObserver extends DisposableSingleObserver<List<News>> {
         @Override
         public void onSuccess(List<News> news) {
-            Log.e("news", news.get(0).description);
+            HomePresenter.this.view.showNewsWidget(news);
         }
 
         @Override
         public void onError(Throwable e) {
-            Log.e("error", e.getMessage());
+            HomePresenter.this.view.showError("Nie udało się pobrać wiadomości");
         }
     }
 }

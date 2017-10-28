@@ -14,6 +14,7 @@ public class TextCommandInterpreter {
         void onFailureCommandRecognizing();
 
         void onHideWeatherWidget();
+        void onNewsCommandRecognized();
     }
 
     private TextCommandInterpreter.Listener listener;
@@ -30,6 +31,12 @@ public class TextCommandInterpreter {
     private final ArrayList<String> timeVocabulary = new ArrayList<>(
             Arrays.asList("czas", "strefy", "czasu", "czasom", "czasowej", "strefę", "strefe"));
 
+    private final ArrayList<String> newsVocabulary = new ArrayList<>(
+            Arrays.asList("news", "newsy", "newsa", "newsa", "wiadomość", "wiadomosc", "wiadomości", "wiadomością", "wiadomoscia"));
+
+    private final ArrayList<String> showVocabulary = new ArrayList<>(
+            Arrays.asList("pokaż", "pokaz", "pokazuj", "wyświetl", "wyswietl", "wyświetlić", "wyswietlic"));
+
     public TextCommandInterpreter(TextCommandInterpreter.Listener listener) {
         this.listener = listener;
     }
@@ -43,7 +50,10 @@ public class TextCommandInterpreter {
             listener.onWeatherCommandRecognized(getLocationName(result));
         } else if (tryRecognizeTimeCommand(interpretingCommand)) {
             listener.onTimeCommandRecognized(getLocationName(result));
-        } else {
+        } else if (tryRecognizeNewsCommand(interpretingCommand)) {
+            listener.onNewsCommandRecognized();
+        }
+        else {
             listener.onFailureCommandRecognizing();
         }
     }
@@ -56,6 +66,11 @@ public class TextCommandInterpreter {
     private Boolean tryRecognizeTimeCommand(String candidate) {
         return containsWordFromVocabulary(candidate, timeVocabulary)
                 && (containsWordFromVocabulary(candidate, cityVocabulary) || containsWordFromVocabulary(candidate, countryVocabulary));
+    }
+
+    private Boolean tryRecognizeNewsCommand(String candidate) {
+        return containsWordFromVocabulary(candidate, newsVocabulary)
+                && (containsWordFromVocabulary(candidate, showVocabulary));
     }
 
     private Boolean containsWordFromVocabulary(String candidate, ArrayList<String> vocabulary) {

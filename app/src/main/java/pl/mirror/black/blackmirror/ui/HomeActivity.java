@@ -7,8 +7,11 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.BindView;
 import pl.mirror.black.blackmirror.R;
+import pl.mirror.black.blackmirror.model.news.News;
 import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
 import pl.mirror.black.blackmirror.speechrecognition.googlespeechapi.SpeechRecognizer;
 import pl.mirror.black.blackmirror.speechrecognition.sphinx.ActivationKeywordListener;
@@ -142,8 +145,8 @@ public class HomeActivity extends BaseActivity implements HomeView,
     }
 
     @Override
-    public void showNewsWidget() {
-
+    public void showNewsWidget(List<News> newsList) {
+        activationKeywordIndicator.setText(newsList.get(0).getDescription());
     }
 
     @Override
