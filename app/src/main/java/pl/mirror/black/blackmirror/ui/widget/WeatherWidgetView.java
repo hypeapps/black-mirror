@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +50,6 @@ public class WeatherWidgetView extends ConstraintLayout {
     public void show(WeatherResponse weatherResponse) {
         fillWeatherInfo(weatherResponse);
         if (getVisibility() == INVISIBLE) {
-            Log.e("animation", "ani");
             YoYo.with(Techniques.ZoomIn).onStart(new YoYo.AnimatorCallback() {
                 @Override
                 public void call(Animator animator) {
@@ -59,8 +57,6 @@ public class WeatherWidgetView extends ConstraintLayout {
                 }
             }).playOn(this);
         } else {
-            Log.e("animation2", "ani");
-
             YoYo.with(Techniques.FadeIn).playOn(this);
         }
     }

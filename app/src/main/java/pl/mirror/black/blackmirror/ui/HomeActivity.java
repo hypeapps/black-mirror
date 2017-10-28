@@ -19,9 +19,15 @@ import pl.mirror.black.blackmirror.ui.widget.WeatherWidgetView;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
+/**
+ * Klasa odpowiada za główny ekran aplikacji.
+ */
 public class HomeActivity extends BaseActivity implements HomeView,
         ActivationKeywordListener, SpeechRecognizer.Listener {
 
+    /**
+     * @return Podajemy refernecje do odpowiedniego widoku xml.
+     */
     @Override
     protected Integer getLayoutRes() {
         return R.layout.activity_home;
@@ -41,9 +47,9 @@ public class HomeActivity extends BaseActivity implements HomeView,
     @BindView(R.id.clock)
     public TextClock clock;
 
-    private PocketSphinx pocketSphinx;
-
     private static final String TAG = "HomeActivity";
+
+    private PocketSphinx pocketSphinx;
 
     private SpeechRecognizer commandSpeechRecognizer;
 
@@ -51,7 +57,6 @@ public class HomeActivity extends BaseActivity implements HomeView,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pocketSphinx = new PocketSphinx(this, this);
-
         commandSpeechRecognizer = new SpeechRecognizer(this, this);
         homePresenter.onAttachView(this);
     }
@@ -74,6 +79,9 @@ public class HomeActivity extends BaseActivity implements HomeView,
         pocketSphinx.onDestroy();
     }
 
+    /**
+     * Zdarzenie, które oznjamia o gotowości nasłuhiwania słowa kluczowego.
+     */
     @Override
     public void onActivationKeywordRecognizerReady() {
         Log.i("ACTIVATION PHRASE ", " ACTIVATION READY ");
@@ -81,26 +89,38 @@ public class HomeActivity extends BaseActivity implements HomeView,
         pocketSphinx.startListeningToActivationKeyword();
     }
 
+    /**
+     * Zdarzenie, które oznjamia o wykryciu słowa kluczowego.
+     */
     @Override
     public void onActivationKeywordDetected() {
         Log.i("ACTIVATION PHRASE ", " DETECTED ");
         commandRecognizingAnimation.startAnimation();
         activationKeywordIndicator.setVisibility(INVISIBLE);
+        // Zacznij słuchać komendy.
         commandSpeechRecognizer.startListeningCommand();
     }
 
+    /**
+     * @param result w parametrze zwrcaca rezultat rozpoznawania komendy głosowej.
+     */
     @Override
     public void onSpeechRecognized(final String result) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // Informujemy presenter o rozpoznaniu komendy głosowej.
                 homePresenter.onSpeechRecognized(result);
             }
         });
     }
 
+    /**
+     * Zdarzenie, które oznjamia o zakończeniu rozpoznawania komendy głosowej.
+     */
     @Override
     public void onFinishSpeechRecognizing() {
+        // zaczynamy znowu słuchąć słowa kluczowego.
         pocketSphinx.startListeningToActivationKeyword();
         runOnUiThread(new Runnable() {
             @Override
@@ -124,6 +144,11 @@ public class HomeActivity extends BaseActivity implements HomeView,
     @Override
     public void showNewsWidget() {
 
+    }
+
+    @Override
+    public void hideWeather() {
+        weatherWidget.hide();
     }
 
     @Override

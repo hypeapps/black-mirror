@@ -37,6 +37,7 @@ public class SpeechRecognizer implements SpeechService.Listener, ServiceConnecti
      */
     @Override
     public void onSpeechRecognized(String text, boolean isFinal) {
+        Log.e("REZULATAT WYKRYWANIA", text);
         if (isFinal) {
             listener.onSpeechRecognized(text);
 //            stopListeningCommand();

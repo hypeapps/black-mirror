@@ -11,6 +11,8 @@ public interface HomeView extends View {
 
     void showNewsWidget();
 
+    void hideWeather();
+
     void showError(String message);
 
 }

@@ -52,13 +52,11 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
 
     @Override
     public void onFailureCommandRecognizing() {
-        Log.e("fail,", "FAIL");
         this.view.showError("Niepoprawna komenda");
     }
 
     @Override
     public void onWeatherCommandRecognized(String location) {
-        Log.e("city", location);
         disposables.add(weatherDataSource.getWeatherByCityName(location, "metric", "pl")
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,22 +65,28 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
 
     @Override
     public void onTimeCommandRecognized(String location) {
-        Log.e("location", location);
         disposables.add(locationDataSource.getTimeZoneByLocationName(location)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new TimeZoneObserver()));
     }
 
+    @Override
+    public void onHideWeatherWidget() {
+        this.view.hideWeather();
+    }
+
     void onSpeechRecognized(String result) {
         textCommandInterpreter.interpret(result);
     }
 
+    /**
+     * Obserwuje status wykonanego żądania restowego pogody.
+     */
     private class WeatherResponseObserver extends DisposableSingleObserver<WeatherResponse> {
         @Override
         public void onSuccess(@NonNull WeatherResponse weatherResponse) {
             HomePresenter.this.view.showWeatherWidget(weatherResponse);
-            Log.e("weather response", weatherResponse.main.temp + " " + weatherResponse.main.humidity);
         }
 
         @Override
@@ -91,10 +95,12 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
         }
     }
 
+    /**
+     * Obserwuje status wykonanego żądania restowego czasu.
+     */
     private class TimeZoneObserver extends DisposableSingleObserver<TimeZone> {
         @Override
         public void onSuccess(@NonNull TimeZone timeZone) {
-            Log.e("time zone", timeZone.timeZone);
             HomePresenter.this.view.showClockWidget(timeZone.timeZone);
         }
 
@@ -104,6 +110,9 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
         }
     }
 
+    /**
+     * Obserwuje status wykonanego żądania rss wiadomości ze świata.
+     */
     private class NewsObserver extends DisposableSingleObserver<List<News>> {
         @Override
         public void onSuccess(List<News> news) {

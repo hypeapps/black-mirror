@@ -13,6 +13,7 @@ public class TextCommandInterpreter {
 
         void onFailureCommandRecognizing();
 
+        void onHideWeatherWidget();
     }
 
     private TextCommandInterpreter.Listener listener;
