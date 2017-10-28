@@ -14,6 +14,9 @@ public class TextCommandInterpreter {
         void onFailureCommandRecognizing();
 
         void onHideWeatherWidget();
+
+        void onShowCalendarRecognized();
+
         void onNewsCommandRecognized();
     }
 
@@ -37,6 +40,9 @@ public class TextCommandInterpreter {
     private final ArrayList<String> showVocabulary = new ArrayList<>(
             Arrays.asList("pokaż", "pokaz", "pokazuj", "wyświetl", "wyswietl", "wyświetlić", "wyswietlic"));
 
+    private final ArrayList<String> calendarVocabulary = new ArrayList<>(
+            Arrays.asList("kalendarz", "kalendarzy", "kalendarzom", "kalendarza", "kalendarzów", "kalendarzem", "kalendarzu", "kalendarzowi"));
+
     public TextCommandInterpreter(TextCommandInterpreter.Listener listener) {
         this.listener = listener;
     }
@@ -52,10 +58,15 @@ public class TextCommandInterpreter {
             listener.onTimeCommandRecognized(getLocationName(result));
         } else if (tryRecognizeNewsCommand(interpretingCommand)) {
             listener.onNewsCommandRecognized();
-        }
-        else {
+        } else if (tryRecognizeShowCalendarCommand(interpretingCommand)){
+            listener.onShowCalendarRecognized();
+        } else {
             listener.onFailureCommandRecognizing();
         }
+    }
+
+    private boolean tryRecognizeShowCalendarCommand(String candidate) {
+        return containsWordFromVocabulary(candidate, showVocabulary) && (containsWordFromVocabulary(candidate, calendarVocabulary));
     }
 
     private Boolean tryRecognizeWeatherCommand(String candidate) {
