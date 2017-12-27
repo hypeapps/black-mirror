@@ -6,9 +6,9 @@ public class Main {
 
     public Double temp;
 
-    public Integer pressure;
+    public Double pressure;
 
-    public Integer humidity;
+    public Double humidity;
 
     @SerializedName("temp_min")
     public Double tempMin;

@@ -4,6 +4,6 @@ public class Wind {
 
     public Double speed;
 
-    public Integer deg;
+    public Double deg;
 
 }

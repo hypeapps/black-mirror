@@ -16,6 +16,6 @@ public class Channel {
     public String description;
 
     @ElementList(name = "item", inline = true)
-    public List<News> newsList;
+    public List<News> news;
 
 }
