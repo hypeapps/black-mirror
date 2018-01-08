@@ -7,6 +7,8 @@ import pl.mirror.black.blackmirror.model.news.News;
 
 public interface NewsRepository {
 
-    Single<List<News>> getNews();
+    Single<List<News>> getTvnNews();
+
+    Single<List<News>> getPolsatNews();
 
 }

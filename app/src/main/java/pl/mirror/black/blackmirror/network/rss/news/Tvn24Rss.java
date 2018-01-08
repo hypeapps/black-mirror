@@ -8,5 +8,6 @@ public interface Tvn24Rss {
 
     @GET("/najnowsze.xml")
     Single<Tvn24News> getNews();
+    /* TEFAL KURWA EN XD */
 
 }
