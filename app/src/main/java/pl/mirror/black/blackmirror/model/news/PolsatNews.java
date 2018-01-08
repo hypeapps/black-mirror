@@ -12,4 +12,5 @@ public class PolsatNews {
 
     @Attribute(required = false)
     private Double version;
+    /* MASTERCZULKI */
 }

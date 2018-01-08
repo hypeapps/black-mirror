@@ -17,6 +17,9 @@ public class News {
         this.title = title;
     }
 
+    @Element(name = "description")
+    public String description;
+
     public String getDescription() {
         return description.replaceAll("<.*?>","")
                 .trim();
@@ -25,8 +28,5 @@ public class News {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Element(name = "description")
-    public String description;
 
 }

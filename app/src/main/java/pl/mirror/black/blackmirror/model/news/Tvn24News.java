@@ -12,4 +12,20 @@ public class Tvn24News {
 
     @Attribute(required = false)
     private Double version;
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public Double getVersion() {
+        return version;
+    }
+
+    public void setVersion(Double version) {
+        this.version = version;
+    }
 }
