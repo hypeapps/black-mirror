@@ -21,7 +21,7 @@ public class PocketSphinx implements RecognitionListener {
     private static final String ACTIVATION_KEYPHRASE = "wakeup mirror";
 
     /* Nazwa akcji rozpoznawnia słowa kluczowego */
-    private static final String WAKEUP_ACTION = "wakeup";
+    private static final String WAKEUP_ACTION = "wakeup mirror";
 
     private final ActivationKeywordListener activationKeywordListener;
 
@@ -35,6 +35,7 @@ public class PocketSphinx implements RecognitionListener {
     @Override
     public void onBeginningOfSpeech() {
         Log.d(TAG, "onBeginningOfSpeech");
+        activationKeywordListener.onActivationKeywordBeginningOfSpeech();
     }
 
     /**
@@ -43,7 +44,7 @@ public class PocketSphinx implements RecognitionListener {
     @Override
     public void onEndOfSpeech() {
         Log.d(TAG, "onEndOfSpeech");
-
+        activationKeywordListener.onActivationKeywordEndOfSpeech();
         if (!recognizer.getSearchName().equals(WAKEUP_ACTION)) {
             Log.i(TAG, "End of speech. Stop recognizer");
             recognizer.stop();
@@ -99,7 +100,7 @@ public class PocketSphinx implements RecognitionListener {
     }
 
     public void startListeningToActivationKeyword() {
-        Log.i(TAG, "Start listening for the \"wakeup mirror\" keyphrase");
+        Log.i(TAG, "Start listening for the " + ACTIVATION_KEYPHRASE + "keyphrase");
         recognizer.startListening(WAKEUP_ACTION);
     }
 
@@ -152,9 +153,9 @@ public class PocketSphinx implements RecognitionListener {
                 .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
                 .getRecognizer();
         recognizer.addListener(this);
-        // Custom recognizer
-        File phoneticModel = new File(assetsDir, "en-phone.dmp");
-        recognizer.addAllphoneSearch("PHONE", phoneticModel);
+//        File phoneticModel = new File(assetsDir, "en-phone.dmp");
+//        recognizer.addAllphoneSearch("PHONE", phoneticModel);
+//        recognizer.addKeywordSearch(WAKEUP_ACTION, new File(assetsDir, "cmudict-en-us.dict"));
         recognizer.addKeyphraseSearch(WAKEUP_ACTION, ACTIVATION_KEYPHRASE);
     }
 

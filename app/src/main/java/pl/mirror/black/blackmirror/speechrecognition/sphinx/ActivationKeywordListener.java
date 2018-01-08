@@ -6,4 +6,8 @@ public interface ActivationKeywordListener {
 
     void onActivationKeywordDetected();
 
+    void onActivationKeywordBeginningOfSpeech();
+
+    void onActivationKeywordEndOfSpeech();
+
 }
