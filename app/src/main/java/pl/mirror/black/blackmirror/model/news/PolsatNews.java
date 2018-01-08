@@ -4,6 +4,9 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+/**
+ *  Model reprezentujący kanał wiadomości Polsatu.
+ */
 @Root(name = "rss", strict = false)
 public class PolsatNews {
 
@@ -12,5 +15,4 @@ public class PolsatNews {
 
     @Attribute(required = false)
     private Double version;
-    /* MASTERCZULKI */
 }

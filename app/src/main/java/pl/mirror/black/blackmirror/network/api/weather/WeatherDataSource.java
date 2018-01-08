@@ -7,6 +7,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Klasa warstwy dostępu do danych pogodowych.
+ */
 public class WeatherDataSource implements WeatherRepository {
 
     private static final String ENDPOINT = "http://api.openweathermap.org/data/2.5/";
@@ -23,7 +26,12 @@ public class WeatherDataSource implements WeatherRepository {
                 .build()
                 .create(WeatherApi.class);
     }
-
+    /*
+        Zwraca pogodę na podstawie podanej lokalizacji.
+        @param cityName - miasto, kraj, wieś.
+        @param units - system jednostek.
+        @param lang - język opisu pogody .
+     */
     @Override
     public Single<WeatherResponse> getWeatherByCityName(String cityName, String units, String lang) {
         return weatherApi.getWeatherByCityName(API_KEY, cityName, units, lang);

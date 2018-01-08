@@ -3,6 +3,9 @@ package pl.mirror.black.blackmirror.model.news;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+/**
+ * Model reprezentujący wiadomości.
+ */
 @Root(name = "item", strict = false)
 public class News {
 

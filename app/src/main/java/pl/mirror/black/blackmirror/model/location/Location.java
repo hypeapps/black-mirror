@@ -1,5 +1,9 @@
 package pl.mirror.black.blackmirror.model.location;
 
+
+/**
+ * Model reprezentujący lokalizacje.
+ */
 public class Location {
 
     public Double lat;

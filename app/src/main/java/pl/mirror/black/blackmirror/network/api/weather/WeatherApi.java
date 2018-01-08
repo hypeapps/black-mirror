@@ -5,6 +5,9 @@ import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Interfejs reprezentujący połączenie z WeatherApi.
+ */
 public interface WeatherApi {
 
     @GET(value = "weather")

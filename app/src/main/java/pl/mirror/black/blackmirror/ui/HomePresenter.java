@@ -21,6 +21,9 @@ import pl.mirror.black.blackmirror.network.rss.news.NewsDataSource;
 import pl.mirror.black.blackmirror.speechrecognition.TextCommandInterpreter;
 import pl.mirror.black.blackmirror.ui.presenter.Presenter;
 
+/**
+ * Klasa zarządzająca widokiem HomeView.
+ */
 class HomePresenter extends Presenter<HomeView> implements TextCommandInterpreter.Listener {
 
     private static final String TAG = "HomePresenter";

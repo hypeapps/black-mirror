@@ -72,7 +72,9 @@ import io.grpc.okhttp.OkHttpChannelProvider;
 import io.grpc.stub.StreamObserver;
 import pl.mirror.black.blackmirror.R;
 
-
+/**
+    Klasa serwisowa rozpoznawania mowy.
+ */
 public class SpeechService extends Service {
 
     public interface Listener {

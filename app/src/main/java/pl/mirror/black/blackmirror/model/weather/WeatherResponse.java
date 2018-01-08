@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Model ojciec dostarczający dane pogodowe.
+ */
 public class WeatherResponse {
 
     public List<Weather> weather;

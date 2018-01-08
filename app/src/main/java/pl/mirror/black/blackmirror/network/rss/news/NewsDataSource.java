@@ -13,6 +13,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
+/**
+ * Klasa warstwy dostępu do danych wiadomości ze świata.
+ */
 public class NewsDataSource implements NewsRepository {
 
     private Tvn24Rss tvn24Rss;
@@ -34,6 +37,9 @@ public class NewsDataSource implements NewsRepository {
                 .create(PolsatNewsRss.class);
     }
 
+    /**
+     *  Zwraca wiadomości z TVNu.
+     */
     @Override
     public Single<List<News>> getTvnNews() {
         return tvn24Rss.getNews()
@@ -45,6 +51,9 @@ public class NewsDataSource implements NewsRepository {
                 });
     }
 
+    /**
+     * Zwraca wiadomości z Polsatu.
+     */
     @Override
     public Single<List<News>> getPolsatNews() {
         return polsatNewsRss.getNews()

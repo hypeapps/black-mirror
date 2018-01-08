@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
-
+/**
+    Klasa zajmująca się rozpoznawaniem mowy. Implementuje serwis
+    GoogleSpeechApi.
+ */
 public class SpeechRecognizer implements SpeechService.Listener, ServiceConnection {
 
     public interface Listener {

@@ -1,5 +1,8 @@
 package pl.mirror.black.blackmirror.model.weather;
 
+/**
+ * Model reprezentujący dane o wietrze.
+ */
 public class Wind {
 
     public Double speed;

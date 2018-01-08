@@ -1,5 +1,8 @@
 package pl.mirror.black.blackmirror.model.weather;
 
+/**
+ * Model reprezentujący stan pogody.
+ */
 public class Weather {
 
     public Integer id;

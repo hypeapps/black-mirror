@@ -2,9 +2,14 @@ package pl.mirror.black.blackmirror.speechrecognition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+    Klasa odpowiadająca za rozpoznawanie komend.
+ */
 public class TextCommandInterpreter {
 
+    /**
+     * Interfejs komunikujący o zdarzeniach wykrycia komend.
+     */
     public interface Listener {
         void onShowWeatherCommandRecognized(String location);
 
@@ -83,6 +88,10 @@ public class TextCommandInterpreter {
         this.listener = listener;
     }
 
+    /**
+     * Metoda interpretująca komendy
+     * @param result - rezultat rozpoznawania mowy
+     */
     public void interpret(String result) {
         String interpretingCommand = result.toLowerCase().trim();
         if (containsOnlyOneWord(interpretingCommand)) {

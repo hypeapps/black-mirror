@@ -6,6 +6,9 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
+/**
+ * Model reprezentujący kanał RSS wiadomości.
+ */
 @Root(name = "channel", strict = false)
 public class Channel {
 

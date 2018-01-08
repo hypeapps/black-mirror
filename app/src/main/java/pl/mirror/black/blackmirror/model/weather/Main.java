@@ -2,6 +2,9 @@ package pl.mirror.black.blackmirror.model.weather;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model reprezentujący parametry główne pogody.
+ */
 public class Main {
 
     public Double temp;

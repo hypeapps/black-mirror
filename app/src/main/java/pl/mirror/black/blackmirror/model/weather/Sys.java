@@ -1,5 +1,8 @@
 package pl.mirror.black.blackmirror.model.weather;
 
+/**
+ * Model reprezentujący dane o czasie wschodu i zachodu słońca.
+ */
 public class Sys {
 
     public String country;

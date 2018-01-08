@@ -6,6 +6,9 @@ import pl.mirror.black.blackmirror.model.location.CoordResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Interfejs reprezentujący endpoint GoogleGeoApi.
+ */
 public interface GoogleGeoApi {
 
     @GET("maps/api/geocode/json")

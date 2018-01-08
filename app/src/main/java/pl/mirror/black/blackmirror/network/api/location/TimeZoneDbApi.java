@@ -5,6 +5,9 @@ import pl.mirror.black.blackmirror.model.location.TimeZone;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Interfejs reprezentujący endpoint TimeZoneDbApi.
+ */
 public interface TimeZoneDbApi {
 
     @GET("get-time-zone?format=json&by=position")

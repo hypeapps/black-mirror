@@ -12,6 +12,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Klasa warstwy dostępu do danych lokalizacyjnych tj. strefa czasaowa,
+ * długość geograficzna oraz szerokość geograficzna.
+ */
 public class LocationDataSource implements LocationRepository {
 
     private static final String TIME_ZONE_DB_API_KEY = BuildConfig.TIMEZONEDB_API_KEY;
@@ -37,6 +41,10 @@ public class LocationDataSource implements LocationRepository {
                 .create(TimeZoneDbApi.class);
     }
 
+    /**
+     * Zwraca strefę czasową na podstawie podanej lokalizacji.
+       @param location Lokalizacja - miasto, kraj, wieś.
+     */
     @Override
     public Single<TimeZone> getTimeZoneByLocationName(String location) {
         return googleGeoApi.getCoordForLocation(location, GOOGLE_GEO_API_KEY)
