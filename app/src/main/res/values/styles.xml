@@ -15,4 +15,24 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="BlackMirror.Theme.CalendarView" parent="android:Widget.CalendarView">
+        <item name="android:focusedMonthDateColor">@android:color/white</item>
+        <item name="android:weekNumberColor">@android:color/white</item>
+        <!--<item name="android:weekDayTextAppearance">@style/TextAppearance.Medium</item>-->
+        <item name="android:dateTextAppearance">@style/BlackMirror.Theme.CalendarView.DateText
+        </item>
+    </style>
+
+    <style name="BlackMirror.Theme.CalendarView.WeekDay" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="BlackMirror.Theme.CalendarView.DateText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/shape_frame</item>
+        <item name="android:colorBackground">@android:color/holo_blue_dark</item>
+        <item name="android:src">@android:color/darker_gray</item>
+    </style>
+
 </resources>

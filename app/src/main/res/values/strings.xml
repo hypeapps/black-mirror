@@ -4,4 +4,8 @@
     <string name="permission_message">This app needs to record audio and recognize your speech.</string>
     <string name="listening">Listening…</string>
     <string name="load_file">Load file</string>
+    <string name="date_format">%1$s, %2$s %3$s</string>
+    <string name="hpa_format">%1$d hPa</string>
+    <string name="humidity_format">%1$d \%</string>
+    <string name="wind_speed_format">%1$d km/h</string>
 </resources>

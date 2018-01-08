@@ -23,6 +23,8 @@ import pl.mirror.black.blackmirror.ui.presenter.Presenter;
 
 class HomePresenter extends Presenter<HomeView> implements TextCommandInterpreter.Listener {
 
+    private static final String TAG = "HomePresenter";
+
     private final WeatherRepository weatherDataSource = new WeatherDataSource();
 
     private final LocationRepository locationDataSource = new LocationDataSource();
@@ -33,10 +35,14 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
+    void onSpeechRecognized(String result) {
+        textCommandInterpreter.interpret(result);
+    }
+
     @Override
     protected void onAttachView(HomeView view) {
         super.onAttachView(view);
-
+        this.view.startSplashScreen();
     }
 
     @Override
@@ -49,11 +55,13 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
 
     @Override
     public void onFailureCommandRecognizing() {
+        Log.e(TAG, "Text command interpreter failed to recognize command");
         this.view.showError("Niepoprawna komenda");
     }
 
     @Override
-    public void onWeatherCommandRecognized(String location) {
+    public void onShowWeatherCommandRecognized(String location) {
+        Log.i(TAG, "Text command interpreter recognized weather command for location: " + location);
         disposables.add(weatherDataSource.getWeatherByCityName(location, "metric", "pl")
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -61,7 +69,14 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     }
 
     @Override
-    public void onTimeCommandRecognized(String location) {
+    public void onHideWeatherCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized hide weather widget command.");
+        this.view.hideWeatherWidget();
+    }
+
+    @Override
+    public void onShowTimeCommandRecognized(String location) {
+        Log.i(TAG, "Text command interpreter recognized time command for location: " + location);
         disposables.add(locationDataSource.getTimeZoneByLocationName(location)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -69,20 +84,74 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     }
 
     @Override
-    public void onHideWeatherWidget() {
-        this.view.hideWeather();
+    public void onHideTimeCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized hide time widget command.");
+        this.view.hideTimeWidget();
     }
 
     @Override
-    public void onNewsCommandRecognized() {
-        disposables.add(newsDataSource.getNews()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new NewsObserver()));
+    public void onShowCalendarCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized show calendar command.");
+        this.view.showCalendarWidget();
     }
 
-    void onSpeechRecognized(String result) {
-        textCommandInterpreter.interpret(result);
+    @Override
+    public void onHideCalendarCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized hide calendar command.");
+        this.view.hideCalendarWidget();
+    }
+
+    @Override
+    public void onNextMonthCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized calendar next month command.");
+        this.view.setCalendarNextMonth();
+    }
+
+    @Override
+    public void onPreviousMonthRecognized() {
+        Log.i(TAG, "Text command interpreter recognized calendar previous month command.");
+        this.view.setCalendarPreviousMonth();
+    }
+
+    @Override
+    public void onShowNewsCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized show all news command.");
+        callPolsatNews();
+        callTvnNews();
+    }
+
+    @Override
+    public void onHideNewsCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized hide all news command.");
+        this.view.hideAllNewsWidget();
+    }
+
+    @Override
+    public void onShowTvnNewsCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized show tvn news command.");
+        callTvnNews();
+    }
+
+    @Override
+    public void onShowPolsatNewsCommandRecognized() {
+        Log.i(TAG, "Text command interpreter recognized show polsat news command.");
+        callPolsatNews();
+    }
+
+    private void callTvnNews() {
+        Log.i(TAG, "Text command interpreter recognized news command for tvn news, polsat hide if visible");
+        disposables.add(newsDataSource.getTvnNews()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new TvnNewsObserver()));
+    }
+
+    private void callPolsatNews() {
+        Log.i(TAG, "Text command interpreter recognized news command for polsat news, tvn24 hide if visible");
+        disposables.add(newsDataSource.getPolsatNews()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new PolsatNewsObserver()));
     }
 
     /**
@@ -91,11 +160,13 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     private class WeatherResponseObserver extends DisposableSingleObserver<WeatherResponse> {
         @Override
         public void onSuccess(@NonNull WeatherResponse weatherResponse) {
+            Log.i(TAG, "WeatherResponseObserver: onSuccess");
             HomePresenter.this.view.showWeatherWidget(weatherResponse);
         }
 
         @Override
         public void onError(@NonNull Throwable e) {
+            Log.e(TAG, "WeatherResponseObserver: onError - " + e.getCause());
             HomePresenter.this.view.showError("Nie znaleziono pogody");
         }
     }
@@ -106,11 +177,13 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     private class TimeZoneObserver extends DisposableSingleObserver<TimeZone> {
         @Override
         public void onSuccess(@NonNull TimeZone timeZone) {
-            HomePresenter.this.view.showClockWidget(timeZone.timeZone);
+            Log.i(TAG, "TimeZoneObserver: onSuccess");
+            HomePresenter.this.view.showTimeWidget(timeZone.timeZone);
         }
 
         @Override
         public void onError(@NonNull Throwable e) {
+            Log.e(TAG, "TimeZoneObserver: onError - " + e.getCause());
             HomePresenter.this.view.showError("Nie znaleziono czasu dla podanej strefy");
         }
     }
@@ -118,14 +191,34 @@ class HomePresenter extends Presenter<HomeView> implements TextCommandInterprete
     /**
      * Obserwuje status wykonanego żądania rss wiadomości ze świata.
      */
-    private class NewsObserver extends DisposableSingleObserver<List<News>> {
+    private class TvnNewsObserver extends DisposableSingleObserver<List<News>> {
         @Override
         public void onSuccess(List<News> news) {
-            HomePresenter.this.view.showNewsWidget(news);
+            Log.i(TAG, "TvnNewsObserver: onSuccess");
+            HomePresenter.this.view.showTvnNewsWidget(news);
         }
 
         @Override
         public void onError(Throwable e) {
+            Log.e(TAG, "TvnNewsObserver: onError - " + e.getCause());
+            HomePresenter.this.view.showError("Nie udało się pobrać wiadomości");
+        }
+    }
+
+    /**
+     * Obserwuje status wykonanego żądania rss wiadomości ze świata.
+     */
+    private class PolsatNewsObserver extends DisposableSingleObserver<List<News>> {
+        @Override
+        public void onSuccess(List<News> news) {
+            Log.i(TAG, "PolsatNewsObserver: onSuccess");
+            HomePresenter.this.view.showPolsatNewsWidget(news);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e(TAG, "PolsatNewsObserver: onError - " + e.getCause());
+            e.printStackTrace();
             HomePresenter.this.view.showError("Nie udało się pobrać wiadomości");
         }
     }

@@ -2,42 +2,71 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#111">
+    android:background="#000">
 
     <pl.mirror.black.blackmirror.ui.widget.CommandRecognizingAnimationView
         android:id="@+id/command_recognizing_animation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="192dp"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextClock
-        android:id="@+id/clock"
+    <ImageView
+        android:id="@+id/active_speech_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"/>
+        android:src="@drawable/active_speech_indicator"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/command_recognizing_animation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/command_recognizing_animation"
+        app:layout_constraintVertical_bias="0.61"/>
+
+    <pl.mirror.black.blackmirror.ui.widget.TimeWidgetView
+        android:id="@+id/time_widget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <pl.mirror.black.blackmirror.ui.widget.CalendarWidgetView
+        android:id="@+id/calendar_widget"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/time_widget"
+        app:layout_constraintEnd_toEndOf="@id/time_widget"
+        android:layout_height="wrap_content"/>
 
     <pl.mirror.black.blackmirror.ui.widget.WeatherWidgetView
         android:id="@+id/weather_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <CalendarView
-        android:layout_width="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="wrap_content"/>
+    <pl.mirror.black.blackmirror.ui.widget.NewsWidgetView
+        android:id="@+id/news_widget"
+        android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/activation_keyword_indicator"/>
+
+    <TextView
+        android:id="@+id/welcome_view"
+        android:gravity="center"
+        android:layout_margin="100dp"
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="48sp"
+        android:foregroundGravity="center"/>
 
     <TextView
         android:id="@+id/activation_keyword_indicator"
@@ -51,13 +80,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_widget"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/activation_keyword_indicator"
-        android:layout_marginBottom="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/exit"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/ic_exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/restart"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_restart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/exit"/>
 
 </android.support.constraint.ConstraintLayout>
 

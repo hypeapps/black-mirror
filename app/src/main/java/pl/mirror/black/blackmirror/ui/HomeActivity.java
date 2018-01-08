@@ -1,25 +1,33 @@
 package pl.mirror.black.blackmirror.ui;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextClock;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import pl.mirror.black.blackmirror.R;
 import pl.mirror.black.blackmirror.model.news.News;
 import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
 import pl.mirror.black.blackmirror.speechrecognition.googlespeechapi.SpeechRecognizer;
 import pl.mirror.black.blackmirror.speechrecognition.sphinx.ActivationKeywordListener;
 import pl.mirror.black.blackmirror.speechrecognition.sphinx.PocketSphinx;
-import pl.mirror.black.blackmirror.ui.adapter.NewsRecyclerAdapter;
+import pl.mirror.black.blackmirror.ui.widget.CalendarWidgetView;
 import pl.mirror.black.blackmirror.ui.widget.CommandRecognizingAnimationView;
+import pl.mirror.black.blackmirror.ui.widget.NewsWidgetView;
+import pl.mirror.black.blackmirror.ui.widget.TimeWidgetView;
 import pl.mirror.black.blackmirror.ui.widget.WeatherWidgetView;
 
 import static android.view.View.INVISIBLE;
@@ -41,10 +49,8 @@ public class HomeActivity extends BaseActivity implements HomeView,
 
     public HomePresenter homePresenter = new HomePresenter();
 
-    public NewsRecyclerAdapter newsRecyclerAdapter;
-
     @BindView(R.id.activation_keyword_indicator)
-    public TextView activationKeywordIndicator;
+    public TextView activationKeywordTextIndicator;
 
     @BindView(R.id.command_recognizing_animation)
     public CommandRecognizingAnimationView commandRecognizingAnimation;
@@ -52,11 +58,20 @@ public class HomeActivity extends BaseActivity implements HomeView,
     @BindView(R.id.weather_widget)
     public WeatherWidgetView weatherWidget;
 
-    @BindView(R.id.clock)
-    public TextClock clock;
+    @BindView(R.id.time_widget)
+    public TimeWidgetView timeWidget;
+
+    @BindView(R.id.calendar_widget)
+    public CalendarWidgetView calendarWidget;
 
     @BindView(R.id.news_widget)
-    public RecyclerView newsWidget;
+    public NewsWidgetView newsWidgetView;
+
+    @BindView(R.id.active_speech_indicator)
+    public ImageView activeSpeechIndicator;
+
+    @BindView(R.id.welcome_view)
+    public TextView welcomeView;
 
     private static final String TAG = "HomeActivity";
 
@@ -70,7 +85,6 @@ public class HomeActivity extends BaseActivity implements HomeView,
         pocketSphinx = new PocketSphinx(this, this);
         commandSpeechRecognizer = new SpeechRecognizer(this, this);
         homePresenter.onAttachView(this);
-        newsRecyclerAdapter = new NewsRecyclerAdapter(this);
     }
 
     @Override
@@ -92,12 +106,12 @@ public class HomeActivity extends BaseActivity implements HomeView,
     }
 
     /**
-     * Zdarzenie, które oznjamia o gotowości nasłuhiwania słowa kluczowego.
+     * Zdarzenie, które oznjamia o gotowości nasłuchiwania słowa kluczowego.
      */
     @Override
     public void onActivationKeywordRecognizerReady() {
         Log.i("ACTIVATION PHRASE ", " ACTIVATION READY ");
-        activationKeywordIndicator.setVisibility(View.VISIBLE);
+        activationKeywordTextIndicator.setVisibility(View.VISIBLE);
         pocketSphinx.startListeningToActivationKeyword();
     }
 
@@ -108,13 +122,25 @@ public class HomeActivity extends BaseActivity implements HomeView,
     public void onActivationKeywordDetected() {
         Log.i("ACTIVATION PHRASE ", " DETECTED ");
         commandRecognizingAnimation.startAnimation();
-        activationKeywordIndicator.setVisibility(INVISIBLE);
+        activationKeywordTextIndicator.setVisibility(INVISIBLE);
+        activeSpeechIndicator.setVisibility(View.INVISIBLE);
         // Zacznij słuchać komendy.
         commandSpeechRecognizer.startListeningCommand();
+        if (welcomeView.getVisibility() == View.VISIBLE) {
+            YoYo.with(Techniques.Tada)
+                    .onEnd(new YoYo.AnimatorCallback() {
+                        @Override
+                        public void call(Animator animator) {
+                            welcomeView.setVisibility(View.INVISIBLE);
+                        }
+                    }).playOn(welcomeView);
+        }
     }
 
     /**
-     * @param result w parametrze zwrcaca rezultat rozpoznawania komendy głosowej.
+     * Zadrzenie, które oznajmia o rozpoznaniu mowy.
+     *
+     * @param result w parametrze zwraca rezultat rozpoznawania komendy głosowej.
      */
     @Override
     public void onSpeechRecognized(final String result) {
@@ -137,37 +163,183 @@ public class HomeActivity extends BaseActivity implements HomeView,
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activationKeywordIndicator.setVisibility(VISIBLE);
+                activationKeywordTextIndicator.setVisibility(VISIBLE);
                 commandRecognizingAnimation.stopAnimation();
             }
         });
     }
 
+    /**
+     * Zdarzenie, które oznjamia o wykryciu mowy podczas nasłuchiwania słowa kluczowego.
+     */
+    @Override
+    public void onActivationKeywordBeginningOfSpeech() {
+        activeSpeechIndicator.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Zdarzenie, które oznjamia o zakończenia słuchania mowy podczas nasłuchiwania słowa kluczowego.
+     */
+    @Override
+    public void onActivationKeywordEndOfSpeech() {
+        activeSpeechIndicator.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Pokazuje widżet pogody.
+     */
     @Override
     public void showWeatherWidget(WeatherResponse weatherResponse) {
         weatherWidget.show(weatherResponse);
     }
 
+    /**
+     * Ukrywa widżet pogody.
+     */
     @Override
-    public void showClockWidget(String timeZone) {
-        clock.setTimeZone(timeZone);
-    }
-
-    @Override
-    public void showNewsWidget(List<News> newsList) {
-        newsWidget.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        newsWidget.setAdapter(newsRecyclerAdapter);
-        newsRecyclerAdapter.addItems(newsList);
-    }
-
-    @Override
-    public void hideWeather() {
+    public void hideWeatherWidget() {
         weatherWidget.hide();
     }
 
+    /**
+     * Pokazuje widżet czasu.
+     */
+    @Override
+    public void showTimeWidget(String timeZone) {
+        timeWidget.show(timeZone);
+    }
+
+    /**
+     * Ukrywa widżet czasu.
+     */
+    @Override
+    public void hideTimeWidget() {
+        timeWidget.hide();
+    }
+
+    /**
+     * Pokazuje widżet z wiadomościami Tvn.
+     */
+    @Override
+    public void showTvnNewsWidget(List<News> newsList) {
+        newsWidgetView.setTvnNews(newsList);
+    }
+
+    /**
+     * Pokazuje widżet z wiadomościami Polsatu.
+     */
+    @Override
+    public void showPolsatNewsWidget(List<News> news) {
+        newsWidgetView.setPolsatNews(news);
+    }
+
+    /**
+     * Pokazuje wszystkie wiadomości.
+     */
+//    @Override
+//    public void showAllNews(List<News> polsatNews, List<News> tvnNews) {
+//        newsWidgetView.setNews(tvnNews, polsatNews);
+//    }
+
+    /**
+     * Ukrywa wszystkie wiadomości.
+     */
+    @Override
+    public void hideAllNewsWidget() {
+        newsWidgetView.hide();
+    }
+
+    /**
+     * Pokazuje widżet kalendarza.
+     */
+    @Override
+    public void showCalendarWidget() {
+        calendarWidget.show();
+    }
+
+    /**
+     * Ukrywa widżet kalendarza.
+     */
+    @Override
+    public void hideCalendarWidget() {
+        calendarWidget.hide();
+    }
+
+    /**
+     * Zmienia miesiąć kalendarza na kolejny.
+     */
+    @Override
+    public void setCalendarNextMonth() {
+        calendarWidget.nextMonth();
+    }
+
+    /**
+     * Zmienia miesiąć kalendarza na poprzedni.
+     */
+    @Override
+    public void setCalendarPreviousMonth() {
+        calendarWidget.previousMonth();
+    }
+
+    /**
+     * Wyświetla powiadomienie o błędzie.
+     *
+     * @param message w parametrze zwraca wiadomość błędu.
+     */
     @Override
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Zamyka okno aplikacji.
+     */
+    @OnClick(R.id.exit)
+    public void exit() {
+        this.finish();
+    }
+
+    /**
+     * Uruchamia ponownie aplikację.
+     */
+    @OnClick(R.id.restart)
+    public void restart() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    /**
+     * Uruchamia ponownie aplikację.
+     */
+    @Override
+    public void startSplashScreen() {
+        welcomeView.setBackground(ContextCompat.getDrawable(this, R.drawable.splash_screen));
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, 1f)
+                .setDuration(3000);
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                welcomeView.setBackground(null);
+                welcomeView.setText("Witaj!");
+                YoYo.with(Techniques.ZoomIn).playOn(welcomeView);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        valueAnimator.start();
+    }
 }

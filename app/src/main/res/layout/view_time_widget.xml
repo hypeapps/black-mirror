@@ -18,9 +18,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
+        android:format24Hour="HH:mm"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/date"/>
+
+    <View
+        android:id="@+id/gradient"
+        android:layout_width="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_clock"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/shape_gradient_black_white"
+        android:layout_height="0.5dp"/>
 
 </android.support.constraint.ConstraintLayout>

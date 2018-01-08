@@ -2,8 +2,8 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/weather_icon"
@@ -19,16 +19,90 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:includeFontPadding="false"
+        android:text="21"
         android:textSize="42sp"
         app:layout_constraintStart_toEndOf="@id/weather_icon"/>
+
+    <View
+        android:id="@+id/gradient"
+        android:layout_width="180dp"
+        android:layout_height="0.5dp"
+        android:background="@drawable/shape_gradient_white_black"
+        app:layout_constraintStart_toStartOf="@id/weather_icon"
+        app:layout_constraintTop_toBottomOf="@id/weather_icon"/>
+
+    <TextView
+        android:id="@+id/weather_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Lekkie zachmurzenie"
+        app:layout_constraintTop_toBottomOf="@id/gradient"/>
 
     <TextView
         android:id="@+id/weather_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="@+id/weather_icon"
-        app:layout_constraintTop_toBottomOf="@+id/weather_icon"/>
+        android:text="Poznań"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="@+id/weather_description"
+        app:layout_constraintTop_toBottomOf="@+id/weather_description"/>
+
+    <ImageView
+        android:id="@+id/weather_wind_speed_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/wind_speed"
+        app:layout_constraintStart_toStartOf="@id/weather_city"
+        app:layout_constraintTop_toBottomOf="@id/weather_city"/>
+
+    <TextView
+        android:id="@+id/weather_wind_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="120km/h"
+        app:layout_constraintBottom_toBottomOf="@id/weather_wind_speed_icon"
+        app:layout_constraintStart_toEndOf="@id/weather_wind_speed_icon"
+        app:layout_constraintTop_toTopOf="@id/weather_wind_speed_icon"/>
+
+    <ImageView
+        android:id="@+id/weather_humidity_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/humidity"
+        app:layout_constraintTop_toBottomOf="@id/weather_wind_speed_icon"/>
+
+    <TextView
+        android:id="@+id/weather_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="15%"
+        app:layout_constraintBottom_toBottomOf="@id/weather_humidity_icon"
+        app:layout_constraintStart_toEndOf="@id/weather_humidity_icon"
+        app:layout_constraintTop_toTopOf="@id/weather_humidity_icon"/>
+
+    <ImageView
+        android:id="@+id/weather_pressure_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/pressure"
+        app:layout_constraintTop_toBottomOf="@id/weather_humidity_icon"/>
+
+    <TextView
+        android:id="@+id/weather_pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="1024 hPa"
+        app:layout_constraintBottom_toBottomOf="@id/weather_pressure_icon"
+        app:layout_constraintStart_toEndOf="@id/weather_humidity_icon"
+        app:layout_constraintTop_toTopOf="@id/weather_pressure_icon"/>
 
 </android.support.constraint.ConstraintLayout>

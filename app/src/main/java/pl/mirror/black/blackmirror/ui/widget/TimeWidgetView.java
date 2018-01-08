@@ -44,13 +44,15 @@ public class TimeWidgetView extends ConstraintLayout {
         this.context = context;
         inflate(context, R.layout.view_time_widget, this);
         clock = (TextClock) findViewById(R.id.text_clock);
-        clock.setFormat24Hour(clock.getFormat24Hour());
         date = (TextView) findViewById(R.id.date);
         setVisibility(INVISIBLE);
+        /*GITHUB KURWA COMMIT ZMIANY */
     }
 
-    public void showWidget(String timezone) {
+    public void show(String timezone) {
         clock.setTimeZone(timezone);
+        clock.setFormat24Hour(clock.getFormat24Hour());
+        clock.setFormat12Hour(null);
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone));
         String[] dayNames = new DateFormatSymbols(new Locale("pl")).getWeekdays();
         String[] monthNames = new DateFormatSymbols(new Locale("pl")).getMonths();
@@ -67,7 +69,7 @@ public class TimeWidgetView extends ConstraintLayout {
                 .playOn(this);
     }
 
-    public void hideWidget() {
+    public void hide() {
         YoYo.with(Techniques.ZoomOut)
                 .onEnd(new YoYo.AnimatorCallback() {
                     @Override

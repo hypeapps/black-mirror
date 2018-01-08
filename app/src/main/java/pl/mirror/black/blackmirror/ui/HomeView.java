@@ -8,14 +8,29 @@ import pl.mirror.black.blackmirror.ui.presenter.View;
 
 public interface HomeView extends View {
 
+    void startSplashScreen();
+
     void showWeatherWidget(WeatherResponse weatherResponse);
 
-    void showClockWidget(String timeZone);
+    void hideWeatherWidget();
 
-    void showNewsWidget(List<News> newsList);
+    void showTimeWidget(String timeZone);
 
-    void hideWeather();
+    void hideTimeWidget();
+
+    void showTvnNewsWidget(List<News> newsList);
+
+    void showPolsatNewsWidget(List<News> news);
+
+    void setCalendarNextMonth();
+
+    void setCalendarPreviousMonth();
+
+    void hideAllNewsWidget();
+
+    void showCalendarWidget();
+
+    void hideCalendarWidget();
 
     void showError(String message);
-
 }
