@@ -100,7 +100,7 @@ public class SpeechService extends Service {
     /**
      * We refresh the current access token before it expires.
      */
-    private static final int ACCESS_TOKEN_FETCH_MARGIN = 60 * 1000; // one minute
+    private static final int ACCESS_TOKEN_FETCH_MARGIN = 60 * 3000; // one minute
 
     public static final List<String> SCOPE =
             Collections.singletonList("https://www.googleapis.com/auth/cloud-platform");
