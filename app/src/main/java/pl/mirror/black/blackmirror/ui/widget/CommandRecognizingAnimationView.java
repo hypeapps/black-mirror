@@ -9,6 +9,9 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import pl.mirror.black.blackmirror.R;
 
+/**
+ * Widok zajmujący sie zarządzaniem animacją.
+ */
 public class CommandRecognizingAnimationView extends FrameLayout {
 
     private LottieAnimationView animationView;
@@ -35,6 +38,9 @@ public class CommandRecognizingAnimationView extends FrameLayout {
         animationView = (LottieAnimationView) findViewById(R.id.view_animation);
     }
 
+    /**
+     * Włącza animacje.
+     */
     public void startAnimation() {
         valueAnimator = ValueAnimator.ofFloat(0f, 1f).setDuration(animationView.getDuration());
         valueAnimator.setCurrentPlayTime(2200L);
@@ -50,6 +56,9 @@ public class CommandRecognizingAnimationView extends FrameLayout {
         valueAnimator.start();
     }
 
+    /**
+     * Zatrzymuje animacje.
+     */
     public void stopAnimation() {
         valueAnimator.cancel();
         animationView.playAnimation(0.70f, 0.90f);

@@ -11,6 +11,11 @@ import retrofit2.http.Query;
  */
 public interface GoogleGeoApi {
 
+    /**
+     * Zwraca koordynaty geograficzne na podstawie podanej lokalizacji.
+     *
+     * @param location Lokalizacja - miasto, kraj, wieś.
+     */
     @GET("maps/api/geocode/json")
     Single<CoordResponse> getCoordForLocation(@Query("address") String location, @Query("key") String apiKey);
 

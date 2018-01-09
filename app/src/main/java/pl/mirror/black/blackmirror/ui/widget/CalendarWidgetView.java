@@ -14,6 +14,9 @@ import java.util.TimeZone;
 
 import pl.mirror.black.blackmirror.R;
 
+/**
+ * Widok odpowiadający za widżet kalendarza.
+ */
 public class CalendarWidgetView extends ConstraintLayout {
 
     private CompactCalendarView calendarView;
@@ -42,6 +45,9 @@ public class CalendarWidgetView extends ConstraintLayout {
 
     }
 
+    /**
+     * Pokazuje kalendarz z animacją.
+     */
     public void show() {
         this.setVisibility(VISIBLE);
         YoYo.with(Techniques.SlideInRight)
@@ -54,14 +60,23 @@ public class CalendarWidgetView extends ConstraintLayout {
                 .playOn(this);
     }
 
+    /**
+     * Ukrywa kalendarz z animacją.
+     */
     public void hide() {
         YoYo.with(Techniques.SlideOutRight).playOn(this);
     }
 
+    /**
+     * Zmienia miesiąc na kolejny.
+     */
     public void nextMonth() {
         calendarView.showNextMonth();
     }
 
+    /**
+     * Zmienia miesiąć na poprzedni.
+     */
     public void previousMonth() {
         calendarView.showPreviousMonth();
     }

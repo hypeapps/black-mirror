@@ -15,9 +15,6 @@ import butterknife.ButterKnife;
 import pl.mirror.black.blackmirror.R;
 import pl.mirror.black.blackmirror.model.news.News;
 
-/**
- *
- */
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder> {
     private LayoutInflater layoutInflater;
     private List<News> newsList = Collections.emptyList();

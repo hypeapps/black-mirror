@@ -18,7 +18,7 @@ public class SpeechRecognizer implements SpeechService.Listener, ServiceConnecti
         void onFinishSpeechRecognizing();
     }
 
-    private static final String TAG = "CommandSpeechRecognizer";
+    private static final String TAG = "SpeechRecognizer";
 
     private Context context;
 
@@ -40,10 +40,9 @@ public class SpeechRecognizer implements SpeechService.Listener, ServiceConnecti
      */
     @Override
     public void onSpeechRecognized(String text, boolean isFinal) {
-        Log.e("REZULATAT WYKRYWANIA", text);
+        Log.e(TAG, "Google speech api recognizing result: " + text);
         if (isFinal) {
             listener.onSpeechRecognized(text);
-//            stopListeningCommand();
         }
     }
 

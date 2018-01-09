@@ -26,11 +26,12 @@ public class WeatherDataSource implements WeatherRepository {
                 .build()
                 .create(WeatherApi.class);
     }
-    /*
-        Zwraca pogodę na podstawie podanej lokalizacji.
-        @param cityName - miasto, kraj, wieś.
-        @param units - system jednostek.
-        @param lang - język opisu pogody .
+
+    /**
+     * @param cityName miasto, kraj, wieś.
+     * @param units system jednostek.
+     * @param lang jezyk opisu wiadomości.
+     * @return Zwraca pogodę na podstawie podanej lokalizacji.
      */
     @Override
     public Single<WeatherResponse> getWeatherByCityName(String cityName, String units, String lang) {

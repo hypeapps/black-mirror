@@ -17,6 +17,9 @@ import java.util.TimeZone;
 
 import pl.mirror.black.blackmirror.R;
 
+/**
+ * Widok odpowiadający za widżet zegara.
+ */
 public class TimeWidgetView extends ConstraintLayout {
 
     private TextClock clock;
@@ -46,9 +49,13 @@ public class TimeWidgetView extends ConstraintLayout {
         clock = (TextClock) findViewById(R.id.text_clock);
         date = (TextView) findViewById(R.id.date);
         setVisibility(INVISIBLE);
-        /*GITHUB KURWA COMMIT ZMIANY */
     }
 
+    /**
+     * Metoda pokazująca widżet dla podanej strefy czasowej.
+     *
+     * @param timezone strefa czasowa.
+     */
     public void show(String timezone) {
         clock.setTimeZone(timezone);
         clock.setFormat24Hour(clock.getFormat24Hour());
@@ -69,6 +76,9 @@ public class TimeWidgetView extends ConstraintLayout {
                 .playOn(this);
     }
 
+    /**
+     * Metoda ukrywająca widżet.
+     */
     public void hide() {
         YoYo.with(Techniques.ZoomOut)
                 .onEnd(new YoYo.AnimatorCallback() {

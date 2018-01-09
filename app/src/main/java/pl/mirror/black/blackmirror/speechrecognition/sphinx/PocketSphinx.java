@@ -13,6 +13,9 @@ import edu.cmu.pocketsphinx.RecognitionListener;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
+/**
+ * Klasa zajmująca się rozpoznawaniem słowa kluczowego.
+ */
 public class PocketSphinx implements RecognitionListener {
 
     private static final String TAG = PocketSphinx.class.getSimpleName();
@@ -32,6 +35,9 @@ public class PocketSphinx implements RecognitionListener {
         runRecognizerSetup(context);
     }
 
+    /**
+     * Wywołana podczas zaczęcia mowy.
+     */
     @Override
     public void onBeginningOfSpeech() {
         Log.d(TAG, "onBeginningOfSpeech");
@@ -88,22 +94,36 @@ public class PocketSphinx implements RecognitionListener {
         }
     }
 
+    /**
+     * Wywowyłana podczas zdarzenia błędu.
+     *
+     * @param e wyjątek błedu.
+     */
     @Override
     public void onError(Exception e) {
         Log.e(TAG, "On error", e);
     }
 
+    /**
+     * Wywoływania po upływu czasu słuchania mowy.
+     */
     @Override
     public void onTimeout() {
         Log.i(TAG, "Timeout!");
         recognizer.stop();
     }
 
+    /**
+     * Metoda włączająca rozpoznawanie słowa kluczowego.
+     */
     public void startListeningToActivationKeyword() {
         Log.i(TAG, "Start listening for the " + ACTIVATION_KEYPHRASE + "keyphrase");
         recognizer.startListening(WAKEUP_ACTION);
     }
 
+    /**
+     *  Metoda burząca obiekt repoznawania mowy.
+     */
     public void onDestroy() {
         if (recognizer != null) {
             recognizer.cancel();
@@ -153,9 +173,9 @@ public class PocketSphinx implements RecognitionListener {
                 .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
                 .getRecognizer();
         recognizer.addListener(this);
-//        File phoneticModel = new File(assetsDir, "en-phone.dmp");
-//        recognizer.addAllphoneSearch("PHONE", phoneticModel);
-//        recognizer.addKeywordSearch(WAKEUP_ACTION, new File(assetsDir, "cmudict-en-us.dict"));
+        File phoneticModel = new File(assetsDir, "en-phone.dmp");
+        recognizer.addAllphoneSearch("PHONE", phoneticModel);
+        recognizer.addKeywordSearch(WAKEUP_ACTION, new File(assetsDir, "cmudict-en-us.dict"));
         recognizer.addKeyphraseSearch(WAKEUP_ACTION, ACTIVATION_KEYPHRASE);
     }
 

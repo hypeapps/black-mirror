@@ -60,6 +60,11 @@ public class NewsWidgetView extends ConstraintLayout {
         this.setVisibility(GONE);
     }
 
+    /**
+     * Wypełnia widok modelem podanym w parametrze
+     *
+     * @param news model wiadomości kanału polsat
+     */
     public void setPolsatNews(List<News> news) {
         this.setVisibility(View.VISIBLE);
         this.polsatNewsAdapter.addItems(news);
@@ -69,6 +74,10 @@ public class NewsWidgetView extends ConstraintLayout {
         this.polsatNewsTitle.setVisibility(VISIBLE);
     }
 
+    /**
+     * Wypełnia widok modelem podanym w parametrze
+     * @param news model wiadomości kanału tvn
+     */
     public void setTvnNews(List<News> news) {
         this.setVisibility(View.VISIBLE);
         this.tvnNewsAdapter.addItems(news);
@@ -78,9 +87,16 @@ public class NewsWidgetView extends ConstraintLayout {
         this.tvnNewsTitle.setVisibility(VISIBLE);
     }
 
-    public void setNews(List<News> tvnNews, List<News> polsatNews) {
-        setTvnNews(tvnNews);
-        setPolsatNews(polsatNews);
+
+    /**
+     * Metoda ukrywająca widżet z animacją
+     */
+    public void hide() {
+        this.setVisibility(View.GONE);
+        this.tvnNewsTitle.setVisibility(GONE);
+        this.tvnNewsRecyclerView.setVisibility(GONE);
+        this.polsatNewsRecyclerView.setVisibility(GONE);
+        this.polsatNewsTitle.setVisibility(GONE);
     }
 
     private void startScrolling() {
@@ -95,13 +111,5 @@ public class NewsWidgetView extends ConstraintLayout {
                 }
             }
         }, 3000);
-    }
-
-    public void hide() {
-        this.setVisibility(View.GONE);
-        this.tvnNewsTitle.setVisibility(GONE);
-        this.tvnNewsRecyclerView.setVisibility(GONE);
-        this.polsatNewsRecyclerView.setVisibility(GONE);
-        this.polsatNewsTitle.setVisibility(GONE);
     }
 }

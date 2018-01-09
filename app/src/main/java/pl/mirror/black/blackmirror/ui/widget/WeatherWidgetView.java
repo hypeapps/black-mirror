@@ -14,6 +14,9 @@ import com.daimajia.androidanimations.library.YoYo;
 import pl.mirror.black.blackmirror.R;
 import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
 
+/**
+ * Widok odpowiadający za widżet poogody.
+ */
 public class WeatherWidgetView extends ConstraintLayout {
 
     private TextView actualTemp;
@@ -60,6 +63,12 @@ public class WeatherWidgetView extends ConstraintLayout {
         setVisibility(INVISIBLE);
     }
 
+    /**
+     * Wypełnia widok modelem podanym w projekcie oraz wykonuje
+     * animację pokazania widżetu.
+     *
+     * @param weatherResponse model reprezentujący dane pogody.
+     */
     public void show(WeatherResponse weatherResponse) {
         fillWeatherInfo(weatherResponse);
         if (getVisibility() == INVISIBLE) {
@@ -74,6 +83,9 @@ public class WeatherWidgetView extends ConstraintLayout {
         }
     }
 
+    /**
+     * Metoda wykonująca pokazanie widżetu z animacją.
+     */
     public void hide() {
         YoYo.with(Techniques.ZoomOut).onStart(new YoYo.AnimatorCallback() {
             @Override

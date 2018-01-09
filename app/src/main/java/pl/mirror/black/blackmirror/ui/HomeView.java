@@ -6,6 +6,9 @@ import pl.mirror.black.blackmirror.model.news.News;
 import pl.mirror.black.blackmirror.model.weather.WeatherResponse;
 import pl.mirror.black.blackmirror.ui.presenter.View;
 
+/**
+ * Interfejs precyzujący kontrakt pomiędzy prezenterem, a widokiem.
+ */
 public interface HomeView extends View {
 
     void startSplashScreen();

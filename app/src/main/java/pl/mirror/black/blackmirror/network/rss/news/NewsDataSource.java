@@ -37,8 +37,9 @@ public class NewsDataSource implements NewsRepository {
                 .create(PolsatNewsRss.class);
     }
 
+
     /**
-     *  Zwraca wiadomości z TVNu.
+     * @return Zwraca model wiadomości dla kanału TVN24.
      */
     @Override
     public Single<List<News>> getTvnNews() {
@@ -52,7 +53,7 @@ public class NewsDataSource implements NewsRepository {
     }
 
     /**
-     * Zwraca wiadomości z Polsatu.
+     * @return Zwraca model wiadomości dla kanału PolsatNews.
      */
     @Override
     public Single<List<News>> getPolsatNews() {

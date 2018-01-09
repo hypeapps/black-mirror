@@ -234,14 +234,6 @@ public class HomeActivity extends BaseActivity implements HomeView,
     }
 
     /**
-     * Pokazuje wszystkie wiadomości.
-     */
-//    @Override
-//    public void showAllNews(List<News> polsatNews, List<News> tvnNews) {
-//        newsWidgetView.setNews(tvnNews, polsatNews);
-//    }
-
-    /**
      * Ukrywa wszystkie wiadomości.
      */
     @Override
