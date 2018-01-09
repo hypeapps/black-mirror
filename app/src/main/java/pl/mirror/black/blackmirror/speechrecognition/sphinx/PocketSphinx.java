@@ -173,9 +173,9 @@ public class PocketSphinx implements RecognitionListener {
                 .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
                 .getRecognizer();
         recognizer.addListener(this);
-        File phoneticModel = new File(assetsDir, "en-phone.dmp");
-        recognizer.addAllphoneSearch("PHONE", phoneticModel);
-        recognizer.addKeywordSearch(WAKEUP_ACTION, new File(assetsDir, "cmudict-en-us.dict"));
+//        File phoneticModel = new File(assetsDir, "en-phone.dmp");
+//        recognizer.addAllphoneSearch("PHONE", phoneticModel);
+//        recognizer.addKeywordSearch(WAKEUP_ACTION, new File(assetsDir, "cmudict-en-us.dict"));
         recognizer.addKeyphraseSearch(WAKEUP_ACTION, ACTIVATION_KEYPHRASE);
     }
 

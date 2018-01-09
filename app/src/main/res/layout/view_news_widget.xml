@@ -42,7 +42,7 @@
         android:background="@android:color/white"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:paddingStart="400dp"
+        android:paddingStart="500dp"
         app:layout_constraintBottom_toTopOf="@id/separator_guide"
         app:layout_constraintStart_toEndOf="@id/tvn_text"/>
 
@@ -82,7 +82,7 @@
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:paddingEnd="16dp"
-        android:paddingStart="400dp"
+        android:paddingStart="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/polsat_text"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_tvn_news"

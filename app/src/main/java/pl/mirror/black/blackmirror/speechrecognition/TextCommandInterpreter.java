@@ -51,7 +51,7 @@ public class TextCommandInterpreter {
 
     private final ArrayList<String> timeVocabulary = new ArrayList<>(
             Arrays.asList("czas", "strefy", "czasu", "czasom", "czasowej", "strefę",
-                    "strefe", "godzinę", "godziny", "godziną", "godzina"));
+                    "strefe", "godzinę", "godziny", "godziną", "godzina", "zegar", "zegara", "zegarowi"));
 
     private final ArrayList<String> newsVocabulary = new ArrayList<>(
             Arrays.asList("news", "newsy", "newsa", "wiadomość", "wiadomości",
