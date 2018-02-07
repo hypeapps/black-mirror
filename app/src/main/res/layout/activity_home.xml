@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     android:background="#000">
 
-    <pl.mirror.black.blackmirror.ui.widget.CommandRecognizingAnimationView
+    <pl.hypeapps.blackmirror.ui.widget.CommandRecognizingAnimationView
         android:id="@+id/command_recognizing_animation"
         android:layout_width="50dp"
         android:layout_height="70dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="@id/command_recognizing_animation"
         app:layout_constraintVertical_bias="0.61"/>
 
-    <pl.mirror.black.blackmirror.ui.widget.TimeWidgetView
+    <pl.hypeapps.blackmirror.ui.widget.TimeWidgetView
         android:id="@+id/time_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,14 +36,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <pl.mirror.black.blackmirror.ui.widget.CalendarWidgetView
+    <pl.hypeapps.blackmirror.ui.widget.CalendarWidgetView
         android:id="@+id/calendar_widget"
         android:layout_width="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/time_widget"
         app:layout_constraintEnd_toEndOf="@id/time_widget"
         android:layout_height="wrap_content"/>
 
-    <pl.mirror.black.blackmirror.ui.widget.WeatherWidgetView
+    <pl.hypeapps.blackmirror.ui.widget.WeatherWidgetView
         android:id="@+id/weather_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <pl.mirror.black.blackmirror.ui.widget.NewsWidgetView
+    <pl.hypeapps.blackmirror.ui.widget.NewsWidgetView
         android:id="@+id/news_widget"
         android:layout_marginStart="16dp"
         android:layout_width="match_parent"
