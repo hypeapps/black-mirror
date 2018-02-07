@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.protobuf'
 
 ext {
@@ -10,7 +11,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "pl.mirror.black.blackmirror"
+        applicationId "pl.hypeapps.smartmirror"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -33,6 +34,7 @@ android {
     buildTypes.each {
         it.buildConfigField('String', 'GOOGLE_GEO_API_KEY', GOOGLE_GEO_API_KEY)
         it.buildConfigField('String', 'TIMEZONEDB_API_KEY', TIMEZONEDB_API_KEY)
+        it.buildConfigField('String', 'OPENWEATHERMAP_API_KEY', OPENWEATHERMAP_API_KEY)
     }
 }
 
@@ -63,6 +65,7 @@ protobuf {
 
 dependencies {
     provided 'com.google.android.things:androidthings:0.5-devpreview'
+    compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
     implementation 'edu.cmu.pocketsphinx:pocketsphinx-android:5prealpha-release@aar'
     implementation project(':cmusphinx-models')
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -96,10 +99,13 @@ dependencies {
     implementation('com.google.auth:google-auth-library-oauth2-http:0.7.0') {
         exclude module: 'httpclient'
     }
+    // This library handles music playback
+    compile 'com.spotify.android:auth:1.0.0-alpha'
 
     // test
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.47'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 task copySecretKey(type: Copy) {
@@ -111,3 +117,6 @@ task copySecretKey(type: Copy) {
 }
 
 preBuild.dependsOn(copySecretKey)
+repositories {
+    mavenCentral()
+}
