@@ -52,6 +52,21 @@ change to:
 ```java
 private final ArrayList<String> countryVocabulary = new ArrayList<>(Arrays.asList("country", "countries", "land", "state"));
 ```
+#### Run on android smartphone
+Comment or delete this in <a href="">AndroidManifest.xml</a>
+```xml
+<intent-filter>
+     <action android:name="android.intent.action.MAIN"/>
+     <!-- Comment this <category android:name="android.intent.category.IOT_LAUNCHER"/> -->
+     <category android:name="android.intent.category.DEFAULT"/>
+</intent-filter>
+```
+#### Permissions
+You need to remember to grant permission via adb or android settings for:
+```xml
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+```
 ## Pictures
 <img src="https://github.com/hypeapps/black-mirror/blob/master/img/mirror.jpg?raw=true" alt="Welcome screen" height="420"/></a>
 <img src="https://github.com/hypeapps/black-mirror/blob/master/img/img2.jpg?raw=true" alt="Welcome screen" height="420"/></a>
