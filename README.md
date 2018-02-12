@@ -1,6 +1,7 @@
 # Black Mirror
-A voice controlled smart mirror powered by Raspberry Pi3B+ and AndroidThings. Mirror is capable to display or hide widgets such as weather, news, time, calendar when the correct voice command is given.
-
+A voice controlled smart mirror powered by Raspberry Pi3B+ and AndroidThings. Mirror is capable to display or hide widgets such as weather, news, time, calendar when the correct voice command is given.</br>
+</br>
+<a href='https://ko-fi.com/G2G395L3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 ## Commands
 At the moment Black Mirror supporting commands in polish language only. If you would like to change the language, see the setup section below. Mirror listen the command only after "wakeup mirror" keyword spotted, this action will be indicated by mic animation. 
 
