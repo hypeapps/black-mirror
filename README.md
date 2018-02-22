@@ -76,7 +76,7 @@ You need to remember to grant permission via adb or android settings for:
 <a href="https://youtu.be/viZlAA0J6LI">YouTube video</a>
 ## Hardware
 - Raspberry Pi3
-- Anbes Super Mini New High-Quality Sound USB 2.0 Microphone Audio Adapter
+- Anbes Super Mini New High-Quality Sound USB 2.0 Microphone Audio Adapter (works with AndroidThings out of the box)
 - Compaq 17' 4:3 LCD Display
 ## License MIT
 >MIT License
