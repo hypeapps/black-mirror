@@ -74,6 +74,10 @@ You need to remember to grant permission via adb or android settings for:
 <img src="https://github.com/hypeapps/black-mirror/blob/master/img/img3.jpg?raw=true" alt="Welcome screen" height="420"/></a>
 ## Video
 <a href="https://youtu.be/viZlAA0J6LI">YouTube video</a>
+## Hardware
+- Raspberry Pi3
+- Anbes Super Mini New High-Quality Sound USB 2.0 Microphone Audio Adapter
+- Compaq 17' 4:3 LCD Display
 ## License MIT
 >MIT License
 
